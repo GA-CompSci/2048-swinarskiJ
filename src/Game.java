@@ -40,7 +40,7 @@ public class Game {
     }
     
     /**
-     * TODO #1: Implement the method to add a random tile to the board
+     
      * Requirements:
      * - 90% chance of adding a 2
      * - 10% chance of adding a 4
@@ -51,11 +51,19 @@ public class Game {
      */
     private void addRandomTile() {
         // TODO: Complete this method
+        ArrayList<int[]> emptyCells = getEmptyCells(); // get empties
+        if (emptyCells.isEmpty()) return; // checks if board is already full
         
+        int[] spot = emptyCells.get((int)(Math.random()* emptyCells.size())); // get empty
+       
+        if(random.nextInt(10) < 9) board[spot[0]][spot[1]] = 2;
+        else board[spot[0]][spot[1]] = 4;
+        //90% for 2, 10% for 4
+
     }
     
     /**
-     * TODO #2: Implement the method to get all empty cells on the board
+
      * Requirements:
      * - Return an ArrayList of int arrays [row, col] for each empty cell
      * - A cell is empty if its value is 0
@@ -65,7 +73,13 @@ public class Game {
     private ArrayList<int[]> getEmptyCells() {
         // TODO: Complete this method
         ArrayList<int[]> emptyCells = new ArrayList<>();
-        
+       
+        for(int row = 0; row < board.length; row++){
+            for(int col = 0; col < board[0].length; col++){
+                if(board[row][col] == 0) emptyCells.add(new int[]{row,col});
+            }
+        }
+
         return emptyCells;
     }
     
@@ -87,9 +101,45 @@ public class Game {
      * 2. If any row changed, add a random tile
      */
     public boolean moveLeft() {
-        // TODO: Complete this method
+   
         boolean moved = false;
+
+        for(int row = 0; row < board.length; row++){
+            int[] temp = new int[BOARD_SIZE];
+
+            int copyCount = 0;
+
+            for(int col = 0; col < board[0].length; col++){
+                if(board[row][col] != 0) temp[copyCount++] = board[row][col];
+            }
+
+            //HARD PART - MERGE + SCOOTCH
+            for(int col = 0; col < board[0].length-1; col++){
+                if(temp[col] == temp[col]+1){
+                    temp[col] = temp[col]*2;
+
+                    score += temp[col];
+
+                    for(int scootch = col+1; scootch < board[0].length-1; scootch++){
+                        temp[scootch] =  temp[scootch+1];
+                    }
+
+                    //add zero at end
+                    temp[board[0].length-1] = 0;
+
+                }
+            }
+
+            //CHECK DIFF
+            for(int col = 0; col < board[0].length; col++){
+                if(temp[col] != board[row][col]){
+                    moved = true;
+                    board[row] = temp;
+                }
+            }
+        }
         
+        if(moved) addRandomTile();
         return moved;
     }
     

@@ -1,7 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.*;
 
 /**
  * GUI class for the 2048 game
@@ -17,13 +17,13 @@ public class GUI extends JFrame {
     // =====================================================================
 
     // Background & text colors
-    private static final Color BACKGROUND_COLOR    = new Color(250, 248, 239);
-    private static final Color TEXT_COLOR           = new Color(119, 110, 101);
-    private static final Color BOARD_COLOR         = new Color(187, 173, 160);
-    private static final Color BUTTON_COLOR        = new Color(143, 122, 102);
+    private static final Color BACKGROUND_COLOR    = new Color(220, 208, 255);
+    private static final Color TEXT_COLOR           = new Color(50,20,65);
+    private static final Color BOARD_COLOR         = new Color(115, 79, 150);
+    private static final Color BUTTON_COLOR        = new Color(172, 120, 186);
 
     // Tile text colors (low = 2 & 4, high = 8+)
-    private static final Color TILE_TEXT_DARK       = new Color(119, 110, 101);
+    private static final Color TILE_TEXT_DARK       = new Color(50,20,65);
     private static final Color TILE_TEXT_LIGHT      = Color.WHITE;
 
     // Status message colors
@@ -31,9 +31,9 @@ public class GUI extends JFrame {
     private static final Color GAME_OVER_COLOR     = Color.RED;
 
     // Tile background colors — one per tile value
-    private static final Color TILE_EMPTY  = new Color(238, 228, 218);
-    private static final Color TILE_2      = new Color(238, 228, 218);
-    private static final Color TILE_4      = new Color(237, 224, 200);
+    private static final Color TILE_EMPTY  = new Color(255, 255, 255);
+    private static final Color TILE_2      = new Color(235, 218, 255);
+    private static final Color TILE_4      = new Color(253, 222, 238);
     private static final Color TILE_8      = new Color(242, 177, 121);
     private static final Color TILE_16     = new Color(245, 149, 99);
     private static final Color TILE_32     = new Color(246, 124, 95);
@@ -79,11 +79,11 @@ public class GUI extends JFrame {
         topPanel.setBackground(BACKGROUND_COLOR);
         
         JLabel titleLabel = new JLabel("2048");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 48));
+        titleLabel.setFont(new Font("Corrier New", Font.BOLD, 48));
         titleLabel.setForeground(TEXT_COLOR);
         
         scoreLabel = new JLabel("Score: 0");
-        scoreLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        scoreLabel.setFont(new Font("Corrier New", Font.BOLD, 24));
         scoreLabel.setForeground(TEXT_COLOR);
         scoreLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         
@@ -95,11 +95,11 @@ public class GUI extends JFrame {
         bottomPanel.setBackground(BACKGROUND_COLOR);
         
         statusLabel = new JLabel("Use arrow keys to play!");
-        statusLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        statusLabel.setFont(new Font("Corrier New", Font.PLAIN, 16));
         statusLabel.setForeground(TEXT_COLOR);
 
         JButton newGameButton = new JButton("New Game");
-        newGameButton.setFont(new Font("Arial", Font.BOLD, 14));
+        newGameButton.setFont(new Font("Corrier New", Font.BOLD, 14));
         newGameButton.setBackground(BUTTON_COLOR);
         newGameButton.setForeground(Color.WHITE);
         newGameButton.setOpaque(true);
@@ -127,7 +127,7 @@ public class GUI extends JFrame {
         for (int i = 0; i < GRID_SIZE; i++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 tiles[i][j] = new JLabel("", SwingConstants.CENTER);
-                tiles[i][j].setFont(new Font("Arial", Font.BOLD, 32));
+                tiles[i][j].setFont(new Font("Corrier New", Font.BOLD, 32));
                 tiles[i][j].setOpaque(true);
                 tiles[i][j].setBorder(BorderFactory.createLineBorder(BOARD_COLOR, 2));
                 gamePanel.add(tiles[i][j]);
@@ -197,11 +197,11 @@ public class GUI extends JFrame {
                     
                     // Adjust font size based on number of digits
                     if (value < 100) {
-                        tiles[i][j].setFont(new Font("Arial", Font.BOLD, 48));
+                        tiles[i][j].setFont(new Font("Corrier New", Font.BOLD, 48));
                     } else if (value < 1000) {
-                        tiles[i][j].setFont(new Font("Arial", Font.BOLD, 36));
+                        tiles[i][j].setFont(new Font("Corrier New", Font.BOLD, 36));
                     } else {
-                        tiles[i][j].setFont(new Font("Arial", Font.BOLD, 28));
+                        tiles[i][j].setFont(new Font("Corrier New", Font.BOLD, 28));
                     }
                 }
             }
