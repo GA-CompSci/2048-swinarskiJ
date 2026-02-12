@@ -50,7 +50,7 @@ public class Game {
      * Hint: Use random.nextInt(10) < 9 for 90% probability
      */
     private void addRandomTile() {
-        // TODO: Complete this method
+       
         ArrayList<int[]> emptyCells = getEmptyCells(); // get empties
         if (emptyCells.isEmpty()) return; // checks if board is already full
         
@@ -71,7 +71,7 @@ public class Game {
      * Hint: Loop through the board and check each cell
      */
     private ArrayList<int[]> getEmptyCells() {
-        // TODO: Complete this method
+  
         ArrayList<int[]> emptyCells = new ArrayList<>();
        
         for(int row = 0; row < board.length; row++){
@@ -84,7 +84,6 @@ public class Game {
     }
     
     /**
-     * TODO #3: Implement the moveLeft method
      * Requirements:
      * - Slide all tiles to the left (remove gaps)
      * - Merge adjacent tiles with same value
@@ -107,26 +106,23 @@ public class Game {
         for(int row = 0; row < board.length; row++){
             int[] temp = new int[BOARD_SIZE];
 
+            // SMART COPY
             int copyCount = 0;
-
             for(int col = 0; col < board[0].length; col++){
                 if(board[row][col] != 0) temp[copyCount++] = board[row][col];
             }
 
             //HARD PART - MERGE + SCOOTCH
             for(int col = 0; col < board[0].length-1; col++){
-                if(temp[col] == temp[col]+1){
+                if(temp[col] == temp[col+1]){
                     temp[col] = temp[col]*2;
 
                     score += temp[col];
-
                     for(int scootch = col+1; scootch < board[0].length-1; scootch++){
-                        temp[scootch] =  temp[scootch+1];
+                        temp[scootch] = temp[scootch+1];
                     }
-
                     //add zero at end
                     temp[board[0].length-1] = 0;
-
                 }
             }
 
@@ -153,9 +149,41 @@ public class Game {
      * Hint: Process from right to left instead of left to right
      */
     public boolean moveRight() {
-        // TODO: Complete this method
         boolean moved = false;
+
+        for(int row = 0; row < board.length; row++){
+            int[] temp = new int[BOARD_SIZE];
+
+            // SMART COPY
+            int copyCount = BOARD_SIZE - 1;
+            for(int col = board[0].length-1; col>=0; col--){
+                if(board[row][col] != 0) temp[copyCount--] = board[row][col];
+            }
+
+            //HARD PART - MERGE + SCOOTCH
+            for(int col = board[0].length-1; col>0; col--){
+                if(temp[col] == temp[col-1]){
+                    temp[col] = temp[col]*2;
+
+                    score += temp[col];
+                    for(int scootch = col-1; scootch > board[0].length-1; scootch--){
+                        temp[scootch] = temp[scootch-1];
+                    }
+                    //add zero at end
+                    temp[0]= 0;
+                }
+            }
+
+            //CHECK DIFF
+            for(int col = 0; col < board[0].length; col++){
+                if(temp[col] != board[row][col]){
+                    moved = true;
+                    board[row] = temp;
+                }
+            }
+        }
         
+        if(moved) addRandomTile();
         return moved;
     }
     
