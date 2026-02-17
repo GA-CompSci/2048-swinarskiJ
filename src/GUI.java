@@ -37,7 +37,7 @@ public class GUI extends JFrame {
     private static final Color TILE_8      = new Color(249,140,182);
     private static final Color TILE_16     = new Color(245, 109, 109);
     private static final Color TILE_32     = new Color(252, 169, 133);
-    private static final Color TILE_64     = new Color(255, 250, 129);
+    private static final Color TILE_64     = new Color(235, 230, 99);
     private static final Color TILE_128    = new Color(191, 228, 118);
     private static final Color TILE_256    = new Color(145, 210, 144);
     private static final Color TILE_512    = new Color(134, 207, 190);

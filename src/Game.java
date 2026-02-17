@@ -140,7 +140,7 @@ public class Game {
     }
     
     /**
-     * TODO #4: Implement the moveRight method
+
      * Requirements:
      * - Similar to moveLeft but in opposite direction
      * - Slide tiles to the right
@@ -188,7 +188,7 @@ public class Game {
     }
     
     /**
-     * TODO #5: Implement the moveUp method
+   
      * Requirements:
      * - Similar logic to moveLeft but operates on columns
      * - Slide tiles up
@@ -197,28 +197,89 @@ public class Game {
      * Hint: Work with columns instead of rows
      */
     public boolean moveUp() {
-        // TODO: Complete this method
+
         boolean moved = false;
-        
+
+        for (int col = 0; col < board[0].length; col++) {
+            int[] temp = new int[BOARD_SIZE];
+
+            // SMART COPY
+            int copyCount = 0;
+            for (int row = 0; row < board.length; row++) {
+                if (board[row][col] != 0) temp[copyCount++] = board[row][col];
+            }
+
+            // HARD PART - MERGE + SCOOTCH
+            for (int row = 0; row < board.length - 1; row++) {
+                if (temp[row] == temp[row + 1]) {
+                    temp[row] = temp[row] * 2;
+                    score += temp[row];
+                    for (int scootch = row + 1; scootch < board.length - 1; scootch++) {
+                        temp[scootch] = temp[scootch + 1];
+                    }
+                    temp[board.length - 1] = 0;
+                }
+            }
+
+            // CHECK DIFF
+            for (int row = 0; row < board.length; row++) {
+                if (temp[row] != board[row][col]) {
+                    moved = true;
+                }
+                board[row][col] = temp[row];
+            }
+        }
+
+        if (moved) addRandomTile();
         return moved;
     }
     
     /**
-     * TODO #6: Implement the moveDown method
      * Requirements:
      * - Similar to moveUp but in opposite direction
      * - Slide tiles down
      * - Merge from bottom to top
      */
     public boolean moveDown() {
-        // TODO: Complete this method
         boolean moved = false;
-        
+
+        for (int col = 0; col < board[0].length; col++) {
+            int[] temp = new int[BOARD_SIZE];
+
+            // SMART COPY
+            int copyCount = 0;
+            for (int row = board.length - 1; row >= 0; row--) {
+                if (board[row][col] != 0) temp[copyCount++] = board[row][col];
+            }
+
+            // HARD PART - MERGE + SCOOTCH
+            for (int row = 0; row < board.length - 1; row++) {
+                if (temp[row] == temp[row + 1]) {
+                    temp[row] = temp[row] * 2;
+                    score += temp[row];
+                    for (int scootch = row + 1; scootch < board.length - 1; scootch++) {
+                        temp[scootch] = temp[scootch + 1];
+                    }
+                    temp[board.length - 1] = 0;
+                }
+            }
+
+            // CHECK DIFF - write back bottom to top
+            for (int row = board.length - 1; row >= 0; row--) {
+                int tempIndex = board.length - 1 - row;
+                if (temp[tempIndex] != board[row][col]) {
+                    moved = true;
+                }
+                board[row][col] = temp[tempIndex];
+            }
+        }
+
+        if (moved) addRandomTile();
         return moved;
     }
     
     /**
-     * TODO #7: Implement method to check if the player has won
+
      * Requirements:
      * - Return true if any tile has value >= WIN_VALUE (2048)
      * - Once won, should continue returning true (use hasWon field)
@@ -226,8 +287,16 @@ public class Game {
      * Hint: Check all tiles and update the hasWon field
      */
     public boolean hasWon() {
-        // TODO: Complete this method
         
+
+        for (int row = 0; row < board.length; row++) {
+            for (int col = 0; col < board[0].length; col++) {
+                if (board[row][col] >= WIN_VALUE) {
+                    hasWon = true;
+                    return true;
+                }
+            }
+        }
         return false;
     }
     
