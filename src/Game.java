@@ -197,40 +197,43 @@ public class Game {
      * Hint: Work with columns instead of rows
      */
     public boolean moveUp() {
-
         boolean moved = false;
-
-        for (int col = 0; col < board[0].length; col++) {
+        
+  
+        for(int col = 0; col < board[0].length; col++){
+            
             int[] temp = new int[BOARD_SIZE];
 
-            // SMART COPY
             int copyCount = 0;
-            for (int row = 0; row < board.length; row++) {
-                if (board[row][col] != 0) temp[copyCount++] = board[row][col];
+            for(int row = 0; row <board.length; row++){
+                if(board[row][col] != 0) temp[copyCount++] = board[row][col];
             }
 
             // HARD PART - MERGE + SCOOTCH
-            for (int row = 0; row < board.length - 1; row++) {
-                if (temp[row] == temp[row + 1]) {
-                    temp[row] = temp[row] * 2;
+            for(int row = 0; row < board.length-1 ; row++){
+
+                if(temp[row] == temp[row + 1]){
+                    temp[row] = temp[row]*2;
+                    //add points
                     score += temp[row];
-                    for (int scootch = row + 1; scootch < board.length - 1; scootch++) {
+                    //add 0
+                    for(int scootch = row + 1; scootch < board.length-1; scootch++){
                         temp[scootch] = temp[scootch + 1];
                     }
-                    temp[board.length - 1] = 0;
+                    temp[board.length-1] = 0;
                 }
             }
+
 
             // CHECK DIFF
-            for (int row = 0; row < board.length; row++) {
-                if (temp[row] != board[row][col]) {
+            for(int row = board[0].length - 1; row >= 0; row--){
+                if(temp[row] != board[row][col]){
                     moved = true;
                 }
-                board[row][col] = temp[row];
+                board[row][col] = temp[row]; //repace row w new val
             }
-        }
-
-        if (moved) addRandomTile();
+        }  
+        if(moved) addRandomTile();
         return moved;
     }
     
@@ -240,41 +243,45 @@ public class Game {
      * - Slide tiles down
      * - Merge from bottom to top
      */
-    public boolean moveDown() {
+     public boolean moveDown() {
         boolean moved = false;
-
-        for (int col = 0; col < board[0].length; col++) {
+        
+      
+        for(int col = board[0].length - 1; col >= 0; col--){
+  
             int[] temp = new int[BOARD_SIZE];
 
-            // SMART COPY
-            int copyCount = 0;
-            for (int row = board.length - 1; row >= 0; row--) {
-                if (board[row][col] != 0) temp[copyCount++] = board[row][col];
+            int copyCount = BOARD_SIZE - 1;
+            for(int row = BOARD_SIZE - 1; row >= 0; row--){
+                if(board[row][col] != 0) temp[copyCount--] = board[row][col];
             }
-
             // HARD PART - MERGE + SCOOTCH
-            for (int row = 0; row < board.length - 1; row++) {
-                if (temp[row] == temp[row + 1]) {
-                    temp[row] = temp[row] * 2;
+            for(int row = BOARD_SIZE - 1; row > 0; row--){
+
+                if(temp[row] == temp[row - 1]){
+                    temp[row] = temp[row]*2;
+                    //add points
                     score += temp[row];
-                    for (int scootch = row + 1; scootch < board.length - 1; scootch++) {
-                        temp[scootch] = temp[scootch + 1];
+                    //add 0
+                    for(int scootch = row - 1; scootch > 0 ; scootch--){
+                        temp[scootch] = temp[scootch - 1];
                     }
-                    temp[board.length - 1] = 0;
+                    temp[0] = 0; 
                 }
             }
 
-            // CHECK DIFF - write back bottom to top
-            for (int row = board.length - 1; row >= 0; row--) {
-                int tempIndex = board.length - 1 - row;
-                if (temp[tempIndex] != board[row][col]) {
+
+            // CHECK DIFF
+            for(int row = board[0].length - 1; row >= 0; row--){
+                if(temp[row] != board[row][col]){
                     moved = true;
                 }
-                board[row][col] = temp[tempIndex];
+                board[row][col] = temp[row]; 
             }
-        }
-
-        if (moved) addRandomTile();
+        }  
+        if(moved) {
+            addRandomTile();
+        } 
         return moved;
     }
     
@@ -289,9 +296,9 @@ public class Game {
     public boolean hasWon() {
         
 
-        for (int row = 0; row < board.length; row++) {
-            for (int col = 0; col < board[0].length; col++) {
-                if (board[row][col] >= WIN_VALUE) {
+        for(int row = 0; row < board.length; row++) {
+            for(int col = 0; col < board[0].length; col++) {
+                if(board[row][col] >= WIN_VALUE) {
                     hasWon = true;
                     return true;
                 }
@@ -301,7 +308,7 @@ public class Game {
     }
     
     /**
-     * TODO #8: Implement method to check if game is over
+     * 
      * Requirements:
      * - Game is over when:
      *   1. No empty cells remain AND
@@ -310,10 +317,22 @@ public class Game {
      * 
      * Hint: First check for empty cells, then check all adjacent pairs
      */
-    public boolean isGameOver() {
-        // TODO: Complete this method
-        
-        return false;
+   public boolean isGameOver() {
+        if(!getEmptyCells().isEmpty()){
+            return false;
+        } 
+        else{
+           for(int row = 0; row < board.length - 1; row++){  
+                for(int col = 0; col < board[0].length - 1; col++){
+                    if(board[row][col] == board[row+1][col] 
+                        || board[row][col] == board[row][col+1] ){
+                      return false;   
+                    }    
+                }
+            }  
+        }
+    
+        return true;
     }
     
     // ===================== PROVIDED METHODS - DO NOT MODIFY =====================
